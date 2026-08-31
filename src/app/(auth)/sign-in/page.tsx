@@ -14,11 +14,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 import { authClient } from "@/lib/auth-client"
 
-const signUpSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Name is required.")
-    .max(100, "Name cannot be longer than 100 characters."),
+const signInSchema = z.object({
   email: z.email().min(1, "Email is required."),
   password: z
     .string()
@@ -26,7 +22,7 @@ const signUpSchema = z.object({
     .max(64, "Password cannot be longer than 64 characters."),
 })
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const router = useRouter()
   const { data, isPending } = authClient.useSession()
 
@@ -36,10 +32,9 @@ export default function SignUpPage() {
     }
   }, [data, isPending, router])
 
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -47,8 +42,8 @@ export default function SignUpPage() {
 
   const { isSubmitting } = form.formState
 
-  async function handleSignUp(data: z.infer<typeof signUpSchema>) {
-    await authClient.signUp.email(
+  async function handleSignIn(data: z.infer<typeof signInSchema>) {
+    await authClient.signIn.email(
       { ...data },
       {
         onError: (error) => {
@@ -66,23 +61,11 @@ export default function SignUpPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
+        <CardTitle>Sign In</CardTitle>
       </CardHeader>
       <CardContent>
-        <form className="space-y-4" id="sign-up-form" onSubmit={form.handleSubmit(handleSignUp)}>
+        <form className="space-y-4" id="sign-in-form" onSubmit={form.handleSubmit(handleSignIn)}>
           <FieldGroup>
-            <Controller
-              name="name"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel htmlFor="name">Name</FieldLabel>
-                  <Input {...field} id="name" aria-invalid={fieldState.invalid}></Input>
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-            ></Controller>
-
             <Controller
               name="email"
               control={form.control}
@@ -120,11 +103,11 @@ export default function SignUpPage() {
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-4">
-        <Button className={"w-full"} type="submit" disabled={isSubmitting} form="sign-up-form">
+        <Button className={"w-full"} type="submit" disabled={isSubmitting} form="sign-in-form">
           {isSubmitting ? <Spinner /> : "Submit"}
         </Button>
         <span>
-          Already have an account? <AppLink href={"/sign-in"}>Sign in</AppLink>
+          New to TindaTrack? <AppLink href={"/sign-up"}>Sign Up</AppLink>
         </span>
       </CardFooter>
     </Card>
