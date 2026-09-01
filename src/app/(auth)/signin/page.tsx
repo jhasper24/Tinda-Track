@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
-import SingInForm from "./_components/SignInForm"
+import { SignInForm } from "./_components/SignInForm"
 
 export const metadata: Metadata = {
   title: "Sign in - TindaTrack",
@@ -15,5 +15,5 @@ export default async function SignInPage() {
     redirect("/dashboard")
   }
 
-  return <SingInForm />
+  return <SignInForm />
 }

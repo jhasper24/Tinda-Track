@@ -146,7 +146,7 @@ export function SignUpForm() {
           {isSubmitting ? <Spinner /> : "Submit"}
         </Button>
         <span>
-          Already have an account? <AppLink href="/sign-in">Sign in</AppLink>
+          Already have an account? <AppLink href="/signin">Sign in</AppLink>
         </span>
       </CardFooter>
     </Card>

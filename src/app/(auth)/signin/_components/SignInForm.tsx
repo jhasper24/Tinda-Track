@@ -21,7 +21,7 @@ const signInSchema = z.object({
     .max(64, "Password cannot be longer than 64 characters."),
 })
 
-export default function SignInForm() {
+export function SignInForm() {
   const router = useRouter()
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -98,7 +98,7 @@ export default function SignInForm() {
           {isSubmitting ? <Spinner /> : "Submit"}
         </Button>
         <span>
-          New to TindaTrack? <AppLink href="/sign-up">Sign Up</AppLink>
+          New to TindaTrack? <AppLink href="/signup">Sign Up</AppLink>
         </span>
       </CardFooter>
     </Card>
