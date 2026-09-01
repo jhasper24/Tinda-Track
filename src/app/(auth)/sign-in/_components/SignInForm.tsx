@@ -13,41 +13,28 @@ import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 import { authClient } from "@/lib/auth-client"
 
-const signUpSchema = z
-  .object({
-    name: z
-      .string()
-      .min(1, "Name is required.")
-      .max(100, "Name cannot be longer than 100 characters."),
-    email: z.email().min(1, "Email is required."),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters long.")
-      .max(64, "Password cannot be longer than 64 characters."),
-    confirmPassword: z.string().min(1, "Please confirm your password."),
-  })
-  .refine((data) => data.confirmPassword === data.password, {
-    message: "Passwords do not match.",
-    path: ["confirmPassword"],
-  })
+const signInSchema = z.object({
+  email: z.email().min(1, "Email is required."),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long.")
+    .max(64, "Password cannot be longer than 64 characters."),
+})
 
-export function SignUpForm() {
+export default function SignInForm() {
   const router = useRouter()
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   })
   const { isSubmitting } = form.formState
 
-  async function handleSignUp(data: z.infer<typeof signUpSchema>) {
-    const { confirmPassword, ...signUpData } = data
-    await authClient.signUp.email(
-      { ...signUpData },
+  async function handleSignIn(data: z.infer<typeof signInSchema>) {
+    await authClient.signIn.email(
+      { ...data },
       {
         onError: (error) => {
           toast.add({ type: "error", description: error.error.message, priority: "high" })
@@ -63,28 +50,11 @@ export function SignUpForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
+        <CardTitle>Sign In</CardTitle>
       </CardHeader>
       <CardContent>
-        <form className="space-y-4" id="sign-up-form" onSubmit={form.handleSubmit(handleSignUp)}>
+        <form className="space-y-4" id="sign-in-form" onSubmit={form.handleSubmit(handleSignIn)}>
           <FieldGroup>
-            <Controller
-              name="name"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel htmlFor="name">Name</FieldLabel>
-                  <Input
-                    {...field}
-                    id="name"
-                    disabled={isSubmitting}
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-            />
-
             <Controller
               name="email"
               control={form.control}
@@ -120,33 +90,15 @@ export function SignUpForm() {
                 </Field>
               )}
             />
-
-            <Controller
-              name="confirmPassword"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
-                  <Input
-                    {...field}
-                    id="confirmPassword"
-                    type="password"
-                    disabled={isSubmitting}
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-            />
           </FieldGroup>
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-4">
-        <Button className="w-full" type="submit" disabled={isSubmitting} form="sign-up-form">
+        <Button className="w-full" type="submit" disabled={isSubmitting} form="sign-in-form">
           {isSubmitting ? <Spinner /> : "Submit"}
         </Button>
         <span>
-          Already have an account? <AppLink href="/sign-in">Sign in</AppLink>
+          New to TindaTrack? <AppLink href="/sign-up">Sign Up</AppLink>
         </span>
       </CardFooter>
     </Card>
