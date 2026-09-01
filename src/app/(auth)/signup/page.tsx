@@ -4,9 +4,7 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { SignUpForm } from "./_components/SignUpForm"
 
-export const metadata: Metadata = {
-  title: "Sign up - TindaTrack",
-}
+export const metadata: Metadata = { title: "Sign up" }
 
 export default async function SignUpPage() {
   const session = await auth.api.getSession({ headers: await headers() })
