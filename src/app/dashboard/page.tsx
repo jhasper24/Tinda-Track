@@ -1,13 +1,9 @@
-import { headers } from "next/headers"
-import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { auth } from "@/lib/auth"
+import { verifySession } from "@/lib/dal"
 import { signOutAction } from "@/server/actions/auth"
 
 export default async function DashboardPage() {
-  const session = await auth.api.getSession({ headers: await headers() })
-
-  if (!session) redirect("/signin")
+  const session = await verifySession()
 
   return (
     <div>
