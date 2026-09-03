@@ -54,7 +54,7 @@ export function SignUpForm() {
         },
         onSuccess: () => {
           router.refresh()
-          router.replace("/dashboard")
+          router.replace("/create-store")
         },
       },
     )
