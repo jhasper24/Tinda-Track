@@ -5,9 +5,17 @@ import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 import type z from "zod"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 import { createStoreSchema } from "@/schemas/store"
 import { createStoreAction } from "@/server/actions/store"
@@ -47,7 +55,8 @@ export function CreateStoreForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Create Your Store</CardTitle>
+        <CardTitle>Welcome to TindaTrack!</CardTitle>
+        <CardDescription>Let's set up your store.</CardDescription>
       </CardHeader>
       <CardContent>
         <form id="createStore" onSubmit={form.handleSubmit(onSubmit)}>
@@ -65,8 +74,8 @@ export function CreateStoreForm() {
         </form>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" type="submit" form="createStore">
-          Create
+        <Button className="w-full" type="submit" form="createStore" disabled={isSubmitting}>
+          {isSubmitting ? <Spinner /> : "Create"}
         </Button>
       </CardFooter>
     </Card>
