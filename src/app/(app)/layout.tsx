@@ -1,4 +1,5 @@
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { AppHeader } from "./_components/AppHeader"
 import { AppSideBar } from "./_components/AppSidebar"
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -6,7 +7,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSideBar />
       <SidebarInset>
-        <SidebarTrigger />
+        <AppHeader />
         <main className="min-h-svh">{children}</main>
       </SidebarInset>
     </SidebarProvider>
