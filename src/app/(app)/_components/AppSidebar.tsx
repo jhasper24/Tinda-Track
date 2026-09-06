@@ -1,4 +1,3 @@
-import { LogOut } from "lucide-react"
 import { redirect } from "next/navigation"
 import {
   Sidebar,
@@ -6,14 +5,11 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { signOutAction } from "@/server/actions/auth"
 import { getCurrentUser } from "@/server/dal/session"
 import { NavMain } from "./NavMain"
 import { NavStore } from "./NavStore"
+import { NavUser } from "./NavUser"
 
 export async function AppSideBar() {
   const session = await getCurrentUser()
@@ -30,16 +26,7 @@ export async function AppSideBar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <form action={signOutAction} className="w-full">
-              <SidebarMenuButton type="submit">
-                <LogOut />
-                <span>Log Out</span>
-              </SidebarMenuButton>
-            </form>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   )

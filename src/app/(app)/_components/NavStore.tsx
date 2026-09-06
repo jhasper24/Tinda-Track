@@ -30,16 +30,18 @@ export async function NavStore() {
   }
 
   return (
-    <SidebarMenuItem>
-      <SidebarMenuButton size="lg" className="pointer-events-none p-0" render={<div />}>
-        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-          <Store />
-        </div>
-        <div className="grid flex-1 text-left text-sm">
-          <span className="truncate font-medium">{store.name}</span>
-          <span className="truncate text-muted-foreground text-xs">Owner</span>
-        </div>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton size="lg" className="pointer-events-none p-0" render={<div />}>
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+            <Store />
+          </div>
+          <div className="grid flex-1 text-left text-sm">
+            <span className="truncate font-medium">{store.name}</span>
+            <span className="truncate text-muted-foreground text-xs">Owner</span>
+          </div>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
   )
 }
