@@ -1,15 +1,20 @@
 "use client"
 
-import { LayoutDashboard } from "lucide-react"
+import { LayoutDashboard, LayoutList } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
 
 const navItems = [
   {
-    title: "dashboard",
+    title: "Dashboard",
     Icon: LayoutDashboard,
     href: "/dashboard",
+  },
+  {
+    title: "Product",
+    Icon: LayoutList,
+    href: "/product",
   },
 ] as const
 
