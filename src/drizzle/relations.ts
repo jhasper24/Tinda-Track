@@ -24,5 +24,12 @@ export const relations = defineRelations(schema, (r) => ({
       from: r.store.ownerId,
       to: r.user.id,
     }),
+    products: r.many.product(),
+  },
+  product: {
+    store: r.one.store({
+      from: r.product.storeId,
+      to: r.store.id,
+    }),
   },
 }))

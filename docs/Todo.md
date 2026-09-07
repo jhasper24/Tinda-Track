@@ -4,7 +4,7 @@
 Product
 
 ## TODO
-- [ ] Create product schema
+- [x] Create product schema
 - [ ] Create product
 - [ ] View product list
 - [ ] View product details
