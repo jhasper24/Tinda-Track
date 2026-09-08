@@ -4,6 +4,7 @@ import { redirect } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
 import { getCurrentUser } from "@/server/dal/session"
 import { findStoreByOwnerId } from "@/server/dal/store"
+import { AddProductDialog } from "./_components/AddProductDialog"
 
 export const metadata: Metadata = { title: "Product" }
 
@@ -24,5 +25,9 @@ export default async function ProductPage() {
     )
   }
 
-  return <h1>This is Product Page</h1>
+  return (
+    <div className="p-2">
+      <AddProductDialog />
+    </div>
+  )
 }
