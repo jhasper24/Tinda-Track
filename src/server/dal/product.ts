@@ -7,3 +7,11 @@ export async function insertProduct(data: AddProductInput & { storeId: string })
     .insert(product)
     .values({ ...data, cost: String(data.cost), markupValue: String(data.markupValue) })
 }
+
+export async function findProductByStoreId(storeId: string) {
+  return await db.query.product.findMany({
+    where: {
+      storeId,
+    },
+  })
+}

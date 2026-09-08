@@ -2,9 +2,11 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
+import { findProductByStoreId } from "@/server/dal/product"
 import { getCurrentUser } from "@/server/dal/session"
 import { findStoreByOwnerId } from "@/server/dal/store"
 import { AddProductDialog } from "./_components/AddProductDialog"
+import { ProductTable } from "./_components/ProductTable"
 
 export const metadata: Metadata = { title: "Product" }
 
@@ -25,9 +27,12 @@ export default async function ProductPage() {
     )
   }
 
+  const products = await findProductByStoreId(store.id)
+
   return (
     <div className="p-2">
       <AddProductDialog />
+      <ProductTable products={products} />
     </div>
   )
 }

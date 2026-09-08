@@ -109,7 +109,7 @@ export function AddProductDialog() {
               render={({ field, fieldState }) => (
                 <Field>
                   <FieldLabel className="items-baseline" htmlFor="cost">
-                    Cost{" "}
+                    Cost
                     <span className="font-normal text-muted-foreground text-xs">(Per Piece)</span>
                   </FieldLabel>
                   <Input
