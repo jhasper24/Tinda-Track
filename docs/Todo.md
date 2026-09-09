@@ -9,4 +9,4 @@ Product
 - [x] View product list
 - [x] View product details
 - [x] Edit product
-- [ ] Delete product
+- [x] Delete product

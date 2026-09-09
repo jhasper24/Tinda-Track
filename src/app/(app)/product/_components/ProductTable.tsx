@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table"
 import { parseNumber, pesoFormatter } from "@/lib/utils"
 import type { findProductByStoreId } from "@/server/dal/product"
+import { DeleteProductButton } from "./DeleteProductButton"
 
 type ProductTableProps = {
   products: Awaited<ReturnType<typeof findProductByStoreId>>
@@ -49,13 +50,14 @@ export function ProductTable({ products }: ProductTableProps) {
               <TableCell>{pesoFormatter.format(cost)}</TableCell>
               <TableCell>{markup}</TableCell>
               <TableCell>{pesoFormatter.format(sellingPrice)}</TableCell>
-              <TableCell>
+              <TableCell className="flex">
                 <Link
                   href={`/product/${product.id}`}
                   className={buttonVariants({ variant: "ghost" })}
                 >
                   <Pencil className="size-4" />
                 </Link>
+                <DeleteProductButton id={product.id} name={product.name} />
               </TableCell>
             </TableRow>
           )
