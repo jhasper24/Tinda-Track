@@ -1,6 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
 import { Controller, type Resolver, useForm, useWatch } from "react-hook-form"
 import z from "zod"
 import { Button } from "@/components/ui/button"
@@ -24,8 +25,13 @@ import {
 } from "@/components/ui/select"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
+import type { product } from "@/drizzle/schema"
 import { parseNumber, pesoFormatter } from "@/lib/utils"
-import { addProductAction } from "@/server/actions/product"
+import { updateProductAction } from "@/server/actions/product"
+
+type EditProductProps = {
+  product: typeof product.$inferSelect
+}
 
 const productFormSchema = z.object({
   name: z.string().min(1, "Name is required.").max(200, "Name must be less than 200 characters."),
@@ -47,14 +53,15 @@ const markupTypeItems = [
   { value: "fixed", label: "₱" },
 ]
 
-export function AddProductDialog() {
+export function EditProductDialog({ product }: EditProductProps) {
+  const [open, setOpen] = useState(false)
   const form = useForm<ProductFormInput>({
     resolver: zodResolver(productFormSchema) as Resolver<ProductFormInput>,
     defaultValues: {
-      name: "",
-      cost: "" as unknown as number,
-      markupValue: "" as unknown as number,
-      markupType: "percent",
+      name: product.name,
+      cost: parseNumber(product.cost),
+      markupValue: parseNumber(product.markupValue),
+      markupType: product.markupType,
     },
   })
   const { isSubmitting } = form.formState
@@ -69,24 +76,25 @@ export function AddProductDialog() {
       : parseNumber(cost) + parseNumber(markupValue)
 
   async function onSubmit(data: ProductFormInput) {
-    const result = await addProductAction(data)
+    const result = await updateProductAction(product.id, data)
     if (result.success) {
-      form.reset()
-      form.setFocus("name")
-      toast.add({ type: "success", description: "Product added successfully.", priority: "high" })
+      toast.add({ type: "success", description: "Product updated successfully.", priority: "high" })
+      setOpen(false)
     } else {
       toast.add({ type: "error", description: result.error, priority: "high" })
     }
   }
 
   return (
-    <Dialog>
-      <DialogTrigger render={<Button />}>Add Product</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger className="ml-auto px-4" render={<Button />}>
+        Edit
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Product</DialogTitle>
+          <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
-        <form id="addProductForm" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="editProductForm" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup className="gap-4">
             <Controller
               name="name"
@@ -189,10 +197,9 @@ export function AddProductDialog() {
           <span className="text-muted-foreground text-xs">Selling Price</span>
           <span className="text-xl">{pesoFormatter.format(sellingPrice)}</span>
         </div>
-
         <DialogFooter>
-          <Button disabled={isSubmitting} type="submit" form="addProductForm">
-            {isSubmitting ? <Spinner /> : "Add Product"}
+          <Button disabled={isSubmitting} type="submit" form="editProductForm">
+            {isSubmitting ? <Spinner /> : "Update Product"}
           </Button>
         </DialogFooter>
       </DialogContent>

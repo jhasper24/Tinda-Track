@@ -1,0 +1,74 @@
+import Link from "next/link"
+import { notFound, redirect } from "next/navigation"
+import { buttonVariants } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { parseNumber, pesoFormatter } from "@/lib/utils"
+import { findProductById } from "@/server/dal/product"
+import { getCurrentUser } from "@/server/dal/session"
+import { findStoreByOwnerId } from "@/server/dal/store"
+import { EditProductDialog } from "./_components/EditProductDialog"
+
+type ProductDetailPageProps = {
+  params: Promise<{ id: string }>
+}
+
+export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
+  const session = await getCurrentUser()
+  if (session == null) return redirect("/signin")
+
+  const store = await findStoreByOwnerId(session.user.id)
+  if (store == null) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="font-medium">You don't have a store yet.</div>
+        <Link href="/create-store" className={buttonVariants()}>
+          Create Store
+        </Link>
+      </div>
+    )
+  }
+
+  const { id } = await params
+
+  const product = await findProductById(id, store.id).catch(() => null)
+  if (product == null) notFound()
+
+  const cost = parseNumber(product.cost)
+  const markupValue = parseNumber(product.markupValue)
+  const sellingPrice =
+    product.markupType === "percent" ? cost * (1 + markupValue / 100) : cost + markupValue
+  const markup =
+    product.markupType === "percent" ? `${product.markupValue}%` : pesoFormatter.format(markupValue)
+
+  return (
+    <div className="p-2">
+      <Card className="max-w-xl">
+        <CardHeader>
+          <CardTitle className="font-medium text-xl">{product.name}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex justify-between">
+            <div>
+              <p className="text-muted-foreground">Cost</p>
+              <p className="font-medium text-lg">{pesoFormatter.format(cost)}</p>
+            </div>
+            <Separator orientation="vertical" />
+            <div>
+              <p className="text-muted-foreground">Selling Price</p>
+              <p className="font-medium text-lg">{pesoFormatter.format(sellingPrice)}</p>
+            </div>
+            <Separator orientation="vertical" />
+            <div>
+              <p className="text-muted-foreground">Markup</p>
+              <p className="font-medium text-lg">{markup}</p>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <EditProductDialog product={product} />
+        </CardFooter>
+      </Card>
+    </div>
+  )
+}

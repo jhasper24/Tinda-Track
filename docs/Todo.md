@@ -7,6 +7,6 @@ Product
 - [x] Create product schema
 - [x] Create product
 - [x] View product list
-- [ ] View product details
-- [ ] Edit product
+- [x] View product details
+- [x] Edit product
 - [ ] Delete product

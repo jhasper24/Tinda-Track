@@ -1,3 +1,6 @@
+import { Pencil } from "lucide-react"
+import Link from "next/link"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -26,6 +29,7 @@ export function ProductTable({ products }: ProductTableProps) {
           <TableHead>Cost</TableHead>
           <TableHead>Markup</TableHead>
           <TableHead>Selling Price</TableHead>
+          <TableHead>Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -45,6 +49,14 @@ export function ProductTable({ products }: ProductTableProps) {
               <TableCell>{pesoFormatter.format(cost)}</TableCell>
               <TableCell>{markup}</TableCell>
               <TableCell>{pesoFormatter.format(sellingPrice)}</TableCell>
+              <TableCell>
+                <Link
+                  href={`/product/${product.id}`}
+                  className={buttonVariants({ variant: "ghost" })}
+                >
+                  <Pencil className="size-4" />
+                </Link>
+              </TableCell>
             </TableRow>
           )
         })}
