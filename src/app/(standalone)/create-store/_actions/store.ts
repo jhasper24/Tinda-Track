@@ -1,9 +1,9 @@
 "use server"
 
+import { getCurrentUser } from "@/dal/session"
 import type { ActionResult } from "@/lib/types"
 import { createStoreSchema } from "@/schemas/store"
-import { getCurrentUser } from "../dal/session"
-import { createStoreService } from "../services/store"
+import { createStoreService } from "../_services/store"
 
 export async function createStoreAction(data: unknown): Promise<ActionResult> {
   const session = await getCurrentUser()

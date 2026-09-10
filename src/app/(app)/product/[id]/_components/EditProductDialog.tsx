@@ -27,7 +27,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 import type { product } from "@/drizzle/schema"
 import { parseNumber, pesoFormatter } from "@/lib/utils"
-import { updateProductAction } from "@/server/actions/product"
+import { updateProductAction } from "../../_actions/product"
 
 type EditProductProps = {
   product: typeof product.$inferSelect

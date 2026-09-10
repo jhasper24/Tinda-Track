@@ -1,5 +1,6 @@
+import { findStoreByOwnerId } from "@/dal/store"
 import type { CreateStoreInput } from "@/schemas/store"
-import { findStoreByOwnerId, insertStore } from "../dal/store"
+import { insertStore } from "../_dal/store"
 
 export async function createStoreService(data: CreateStoreInput & { ownerId: string }) {
   const existingStore = await findStoreByOwnerId(data.ownerId)

@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
-import { getCurrentUser } from "@/server/dal/session"
-import { findStoreByOwnerId } from "@/server/dal/store"
+import { getCurrentUser } from "@/dal/session"
+import { findStoreByOwnerId } from "@/dal/store"
 import { CreateStoreForm } from "./_components/CreateStoreForm"
 
 export const metadata: Metadata = { title: "Create Store" }

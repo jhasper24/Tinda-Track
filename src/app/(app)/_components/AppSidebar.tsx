@@ -6,7 +6,7 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar"
-import { getCurrentUser } from "@/server/dal/session"
+import { getCurrentUser } from "@/dal/session"
 import { NavMain } from "./NavMain"
 import { NavStore } from "./NavStore"
 import { NavUser } from "./NavUser"

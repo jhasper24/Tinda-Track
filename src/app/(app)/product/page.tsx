@@ -2,11 +2,11 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
-import { findProductByStoreId } from "@/server/dal/product"
-import { getCurrentUser } from "@/server/dal/session"
-import { findStoreByOwnerId } from "@/server/dal/store"
+import { getCurrentUser } from "@/dal/session"
+import { findStoreByOwnerId } from "@/dal/store"
 import { AddProductDialog } from "./_components/AddProductDialog"
 import { ProductTable } from "./_components/ProductTable"
+import { findProductByStoreId } from "./_dal/product"
 
 export const metadata: Metadata = { title: "Product" }
 

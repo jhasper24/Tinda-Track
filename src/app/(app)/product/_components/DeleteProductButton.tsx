@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
-import { deleteProductAction } from "@/server/actions/product"
+import { deleteProductAction } from "../_actions/product"
 
 type DeleteProductButtonProps = {
   id: string

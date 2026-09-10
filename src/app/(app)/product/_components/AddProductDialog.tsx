@@ -25,7 +25,7 @@ import {
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 import { parseNumber, pesoFormatter } from "@/lib/utils"
-import { addProductAction } from "@/server/actions/product"
+import { addProductAction } from "../_actions/product"
 
 const productFormSchema = z.object({
   name: z.string().min(1, "Name is required.").max(200, "Name must be less than 200 characters."),

@@ -3,8 +3,8 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { getCurrentUser } from "@/server/dal/session"
-import { findStoreByOwnerId } from "@/server/dal/store"
+import { getCurrentUser } from "@/dal/session"
+import { findStoreByOwnerId } from "@/dal/store"
 
 export const metadata: Metadata = { title: "Dashboard" }
 

@@ -1,5 +1,6 @@
 import { ChevronsUpDown, LogOut } from "lucide-react"
 import { redirect } from "next/navigation"
+import { signOutAction } from "@/app/(app)/_actions/auth"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -11,8 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-import { signOutAction } from "@/server/actions/auth"
-import { getCurrentUser } from "@/server/dal/session"
+import { getCurrentUser } from "@/dal/session"
 
 export async function NavUser() {
   const session = await getCurrentUser()

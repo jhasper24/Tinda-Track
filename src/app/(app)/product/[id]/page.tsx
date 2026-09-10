@@ -3,10 +3,10 @@ import { notFound, redirect } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { getCurrentUser } from "@/dal/session"
+import { findStoreByOwnerId } from "@/dal/store"
 import { parseNumber, pesoFormatter } from "@/lib/utils"
-import { findProductById } from "@/server/dal/product"
-import { getCurrentUser } from "@/server/dal/session"
-import { findStoreByOwnerId } from "@/server/dal/store"
+import { findProductById } from "../_dal/product"
 import { EditProductDialog } from "./_components/EditProductDialog"
 
 type ProductDetailPageProps = {

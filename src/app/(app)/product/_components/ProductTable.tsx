@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { parseNumber, pesoFormatter } from "@/lib/utils"
-import type { findProductByStoreId } from "@/server/dal/product"
+import type { findProductByStoreId } from "../_dal/product"
 import { DeleteProductButton } from "./DeleteProductButton"
 
 type ProductTableProps = {

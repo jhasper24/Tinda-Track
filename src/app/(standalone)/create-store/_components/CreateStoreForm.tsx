@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 import { createStoreSchema } from "@/schemas/store"
-import { createStoreAction } from "@/server/actions/store"
+import { createStoreAction } from "../_actions/store"
 
 type CreateStoreForm = z.infer<typeof createStoreSchema>
 

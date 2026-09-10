@@ -1,12 +1,12 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { getCurrentUser } from "@/dal/session"
+import { findStoreByOwnerId } from "@/dal/store"
 import type { ActionResult } from "@/lib/types"
-import { findProductById } from "../dal/product"
-import { getCurrentUser } from "../dal/session"
-import { findStoreByOwnerId } from "../dal/store"
-import { addProductSchema } from "../schemas/product"
-import { addProductService, deleteProductService, updateProductService } from "../services/product"
+import { findProductById } from "../_dal/product"
+import { addProductSchema } from "../_schemas/product"
+import { addProductService, deleteProductService, updateProductService } from "../_services/product"
 
 export async function addProductAction(input: unknown): Promise<ActionResult> {
   const session = await getCurrentUser()

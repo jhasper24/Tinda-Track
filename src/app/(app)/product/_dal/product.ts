@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm"
 import { db } from "@/drizzle/db"
 import { product } from "@/drizzle/schema"
-import type { AddProductInput } from "../schemas/product"
+import type { AddProductInput } from "../_schemas/product"
 
 export async function insertProduct(data: AddProductInput & { storeId: string }) {
   return await db
