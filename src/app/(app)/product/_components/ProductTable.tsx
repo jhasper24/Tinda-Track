@@ -9,8 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { parseNumber, pesoFormatter } from "@/lib/utils"
+import { pesoFormatter } from "@/lib/utils"
 import type { findProductByStoreId } from "../_dal/product"
+import { getProductPricing } from "../_lib/utils"
 import { DeleteProductButton } from "./DeleteProductButton"
 
 type ProductTableProps = {
@@ -35,20 +36,13 @@ export function ProductTable({ products }: ProductTableProps) {
       </TableHeader>
       <TableBody>
         {products.map((product) => {
-          const cost = parseNumber(product.cost)
-          const markupValue = parseNumber(product.markupValue)
-          const sellingPrice =
-            product.markupType === "percent" ? cost * (1 + markupValue / 100) : cost + markupValue
-          const markup =
-            product.markupType === "percent"
-              ? `${product.markupValue}%`
-              : pesoFormatter.format(markupValue)
+          const { cost, markupLabel, sellingPrice } = getProductPricing(product)
 
           return (
             <TableRow key={product.id}>
               <TableCell>{product.name}</TableCell>
               <TableCell>{pesoFormatter.format(cost)}</TableCell>
-              <TableCell>{markup}</TableCell>
+              <TableCell>{markupLabel}</TableCell>
               <TableCell>{pesoFormatter.format(sellingPrice)}</TableCell>
               <TableCell className="flex">
                 <Link

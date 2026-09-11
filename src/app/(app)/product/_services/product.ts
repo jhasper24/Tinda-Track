@@ -1,13 +1,11 @@
 import { deleteProduct, insertProduct, updateProduct } from "../_dal/product"
-import type { AddProductInput } from "../_schemas/product"
+import type { Product } from "../_schemas/product"
 
-export async function addProductService(data: AddProductInput & { storeId: string }) {
+export async function addProductService(data: Product & { storeId: string }) {
   await insertProduct(data)
 }
 
-export async function updateProductService(
-  data: AddProductInput & { id: string; storeId: string },
-) {
+export async function updateProductService(data: Product & { id: string; storeId: string }) {
   await updateProduct(data)
 }
 

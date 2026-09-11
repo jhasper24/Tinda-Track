@@ -5,8 +5,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Separator } from "@/components/ui/separator"
 import { getCurrentUser } from "@/dal/session"
 import { findStoreByOwnerId } from "@/dal/store"
-import { parseNumber, pesoFormatter } from "@/lib/utils"
+import { pesoFormatter } from "@/lib/utils"
 import { findProductById } from "../_dal/product"
+import { getProductPricing } from "../_lib/utils"
 import { EditProductDialog } from "./_components/EditProductDialog"
 
 type ProductDetailPageProps = {
@@ -28,18 +29,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       </div>
     )
   }
-
   const { id } = await params
 
   const product = await findProductById(id, store.id).catch(() => null)
   if (product == null) notFound()
-
-  const cost = parseNumber(product.cost)
-  const markupValue = parseNumber(product.markupValue)
-  const sellingPrice =
-    product.markupType === "percent" ? cost * (1 + markupValue / 100) : cost + markupValue
-  const markup =
-    product.markupType === "percent" ? `${product.markupValue}%` : pesoFormatter.format(markupValue)
+  const { cost, markupLabel, sellingPrice } = getProductPricing(product)
 
   return (
     <div className="p-2">
@@ -61,7 +55,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             <Separator orientation="vertical" />
             <div>
               <p className="text-muted-foreground">Markup</p>
-              <p className="font-medium text-lg">{markup}</p>
+              <p className="font-medium text-lg">{markupLabel}</p>
             </div>
           </div>
         </CardContent>

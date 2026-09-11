@@ -1,9 +1,9 @@
 import { and, eq } from "drizzle-orm"
 import { db } from "@/drizzle/db"
 import { product } from "@/drizzle/schema"
-import type { AddProductInput } from "../_schemas/product"
+import type { Product } from "../_schemas/product"
 
-export async function insertProduct(data: AddProductInput & { storeId: string }) {
+export async function insertProduct(data: Product & { storeId: string }) {
   return await db
     .insert(product)
     .values({ ...data, cost: String(data.cost), markupValue: String(data.markupValue) })
@@ -26,7 +26,7 @@ export async function findProductById(id: string, storeId: string) {
   })
 }
 
-export async function updateProduct(data: AddProductInput & { id: string; storeId: string }) {
+export async function updateProduct(data: Product & { id: string; storeId: string }) {
   return await db
     .update(product)
     .set({ ...data, cost: String(data.cost), markupValue: String(data.markupValue) })

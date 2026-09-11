@@ -5,7 +5,7 @@ import { getCurrentUser } from "@/dal/session"
 import { findStoreByOwnerId } from "@/dal/store"
 import type { ActionResult } from "@/lib/types"
 import { findProductById } from "../_dal/product"
-import { addProductSchema } from "../_schemas/product"
+import { productSchema } from "../_schemas/product"
 import { addProductService, deleteProductService, updateProductService } from "../_services/product"
 
 export async function addProductAction(input: unknown): Promise<ActionResult> {
@@ -15,7 +15,7 @@ export async function addProductAction(input: unknown): Promise<ActionResult> {
   const store = await findStoreByOwnerId(session.user.id)
   if (store == null) return { success: false, error: "No store found" }
 
-  const parsed = addProductSchema.safeParse(input)
+  const parsed = productSchema.safeParse(input)
   if (!parsed.success)
     return { success: false, error: parsed.error.issues[0]?.message || "Invalid input." }
 
@@ -34,7 +34,7 @@ export async function updateProductAction(id: string, input: unknown): Promise<A
   const existing = await findProductById(id, store.id)
   if (existing == null) return { success: false, error: "Product not found" }
 
-  const parsed = addProductSchema.safeParse(input)
+  const parsed = productSchema.safeParse(input)
   if (!parsed.success)
     return { success: false, error: parsed.error.issues[0]?.message || "Invalid input." }
 
