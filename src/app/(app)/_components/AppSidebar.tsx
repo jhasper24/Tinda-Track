@@ -6,13 +6,13 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar"
-import { getCurrentUser } from "@/dal/session"
+import { getCurrentSession } from "@/dal/session"
 import { NavMain } from "./NavMain"
 import { NavStore } from "./NavStore"
 import { NavUser } from "./NavUser"
 
 export async function AppSideBar() {
-  const session = await getCurrentUser()
+  const session = await getCurrentSession()
   if (session == null) redirect("/signin")
 
   return (

@@ -10,12 +10,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { pesoFormatter } from "@/lib/utils"
-import type { findProductByStoreId } from "../_dal/product"
 import { getProductPricing } from "../_lib/utils"
+import type { Product } from "../_schemas/product"
 import { DeleteProductButton } from "./DeleteProductButton"
 
 type ProductTableProps = {
-  products: Awaited<ReturnType<typeof findProductByStoreId>>
+  products: Product[]
 }
 
 export function ProductTable({ products }: ProductTableProps) {

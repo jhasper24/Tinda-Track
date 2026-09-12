@@ -3,13 +3,13 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { getCurrentUser } from "@/dal/session"
+import { getCurrentSession } from "@/dal/session"
 import { findStoreByOwnerId } from "@/dal/store"
 
 export const metadata: Metadata = { title: "Dashboard" }
 
 export default async function DashboardPage() {
-  const session = await getCurrentUser()
+  const session = await getCurrentSession()
   if (session == null) return redirect("/signin")
 
   const store = await findStoreByOwnerId(session.user.id)

@@ -14,18 +14,18 @@ import { toast } from "@/components/ui/toast"
 import { pesoFormatter } from "@/lib/utils"
 import { addProductAction } from "../_actions/product"
 import { useProductForm } from "../_hooks/useProductForm"
-import type { ProductFormInput } from "../_schemas/product-form"
+import type { ProductOutput } from "../_schemas/product"
 import { ProductFormField } from "./ProductFormField"
 
 export function AddProductDialog() {
   const { form, isSubmitting, sellingPrice } = useProductForm({
     name: "",
-    cost: 0,
-    markupValue: 0,
+    cost: "",
+    markupValue: "",
     markupType: "percent",
   })
 
-  async function onSubmit(data: ProductFormInput) {
+  async function onSubmit(data: ProductOutput) {
     const result = await addProductAction(data)
     if (result.success) {
       form.reset()

@@ -9,10 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { markupTypeItems, type ProductFormInput } from "../_schemas/product-form"
+import { markupTypeItems, type ProductInput, type ProductOutput } from "../_schemas/product"
 
 type ProductFormFieldProps = {
-  form: UseFormReturn<ProductFormInput>
+  form: UseFormReturn<ProductInput, unknown, ProductOutput>
   isSubmitting: boolean
 }
 

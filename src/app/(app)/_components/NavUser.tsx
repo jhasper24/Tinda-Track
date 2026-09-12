@@ -12,10 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-import { getCurrentUser } from "@/dal/session"
+import { getCurrentSession } from "@/dal/session"
 
 export async function NavUser() {
-  const session = await getCurrentUser()
+  const session = await getCurrentSession()
   if (session == null) {
     redirect("/signin")
   }

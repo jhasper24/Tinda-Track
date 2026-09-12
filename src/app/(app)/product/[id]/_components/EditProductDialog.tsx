@@ -12,26 +12,25 @@ import {
 } from "@/components/ui/dialog"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
-import type { product } from "@/drizzle/schema"
-import { parseNumber, pesoFormatter } from "@/lib/utils"
+import { pesoFormatter } from "@/lib/utils"
 import { updateProductAction } from "../../_actions/product"
 import { ProductFormField } from "../../_components/ProductFormField"
 import { useProductForm } from "../../_hooks/useProductForm"
-import type { ProductFormInput } from "../../_schemas/product-form"
+import type { Product, ProductOutput } from "../../_schemas/product"
 
 type EditProductProps = {
-  product: typeof product.$inferSelect
+  product: Product
 }
 
 export function EditProductDialog({ product }: EditProductProps) {
   const [open, setOpen] = useState(false)
   const { form, isSubmitting, sellingPrice } = useProductForm({
     name: product.name,
-    cost: parseNumber(product.cost),
+    cost: product.cost,
     markupType: product.markupType,
-    markupValue: parseNumber(product.markupValue),
+    markupValue: product.markupValue,
   })
-  async function onSubmit(data: ProductFormInput) {
+  async function onSubmit(data: ProductOutput) {
     const result = await updateProductAction(product.id, data)
     if (result.success) {
       toast.add({ type: "success", description: "Product updated successfully.", priority: "high" })
@@ -45,9 +44,9 @@ export function EditProductDialog({ product }: EditProductProps) {
     if (open) {
       form.reset({
         name: product.name,
-        cost: parseNumber(product.cost),
+        cost: product.cost,
         markupType: product.markupType,
-        markupValue: parseNumber(product.markupValue),
+        markupValue: product.markupValue,
       })
     }
   }, [open, product, form])

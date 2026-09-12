@@ -2,16 +2,16 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
-import { getCurrentUser } from "@/dal/session"
+import { getCurrentSession } from "@/dal/session"
 import { findStoreByOwnerId } from "@/dal/store"
 import { AddProductDialog } from "./_components/AddProductDialog"
 import { ProductTable } from "./_components/ProductTable"
-import { findProductByStoreId } from "./_dal/product"
+import { findProducts } from "./_dal/product"
 
 export const metadata: Metadata = { title: "Product" }
 
 export default async function ProductPage() {
-  const session = await getCurrentUser()
+  const session = await getCurrentSession()
   if (session == null) return redirect("/signin")
 
   const store = await findStoreByOwnerId(session.user.id)
@@ -27,7 +27,7 @@ export default async function ProductPage() {
     )
   }
 
-  const products = await findProductByStoreId(store.id)
+  const products = await findProducts(store.id)
 
   return (
     <div className="p-2">

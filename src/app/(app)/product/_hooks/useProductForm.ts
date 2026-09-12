@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type Resolver, useForm, useWatch } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { computeSellingPrice } from "../_lib/utils"
-import { type ProductFormInput, productFormSchema } from "../_schemas/product-form"
+import { type ProductInput, type ProductOutput, productSchema } from "../_schemas/product"
 
-export function useProductForm(defaultValues: ProductFormInput) {
-  const form = useForm<ProductFormInput>({
+export function useProductForm(defaultValues: ProductInput) {
+  const form = useForm<ProductInput, unknown, ProductOutput>({
     defaultValues,
-    resolver: zodResolver(productFormSchema) as Resolver<ProductFormInput>,
+    resolver: zodResolver(productSchema),
   })
   const { isSubmitting } = form.formState
   const [cost, markupValue, markupType] = useWatch({

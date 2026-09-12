@@ -1,13 +1,13 @@
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
-import { getCurrentUser } from "@/dal/session"
+import { getCurrentSession } from "@/dal/session"
 import { findStoreByOwnerId } from "@/dal/store"
 import { CreateStoreForm } from "./_components/CreateStoreForm"
 
 export const metadata: Metadata = { title: "Create Store" }
 
 export default async function CreateStorePage() {
-  const session = await getCurrentUser()
+  const session = await getCurrentSession()
   if (session == null) return redirect("/signin")
 
   const store = await findStoreByOwnerId(session.user.id)

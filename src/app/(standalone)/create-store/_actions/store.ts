@@ -1,12 +1,12 @@
 "use server"
 
-import { getCurrentUser } from "@/dal/session"
+import { getCurrentSession } from "@/dal/session"
 import type { ActionResult } from "@/lib/types"
 import { createStoreSchema } from "@/schemas/store"
 import { createStoreService } from "../_services/store"
 
 export async function createStoreAction(data: unknown): Promise<ActionResult> {
-  const session = await getCurrentUser()
+  const session = await getCurrentSession()
   if (session == null) return { success: false, error: "Unauthenticated." }
 
   const parsed = createStoreSchema.safeParse(data)

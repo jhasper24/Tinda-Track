@@ -3,10 +3,10 @@ import { notFound, redirect } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { getCurrentUser } from "@/dal/session"
+import { getCurrentSession } from "@/dal/session"
 import { findStoreByOwnerId } from "@/dal/store"
 import { pesoFormatter } from "@/lib/utils"
-import { findProductById } from "../_dal/product"
+import { findProduct } from "../_dal/product"
 import { getProductPricing } from "../_lib/utils"
 import { EditProductDialog } from "./_components/EditProductDialog"
 
@@ -15,7 +15,7 @@ type ProductDetailPageProps = {
 }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const session = await getCurrentUser()
+  const session = await getCurrentSession()
   if (session == null) return redirect("/signin")
 
   const store = await findStoreByOwnerId(session.user.id)
@@ -31,7 +31,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   }
   const { id } = await params
 
-  const product = await findProductById(id, store.id).catch(() => null)
+  const product = await findProduct({ id, storeId: store.id }).catch(() => null)
   if (product == null) notFound()
   const { cost, markupLabel, sellingPrice } = getProductPricing(product)
 
