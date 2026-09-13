@@ -1,29 +1,15 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { redirect } from "next/navigation"
-import { buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { getCurrentSession } from "@/dal/session"
-import { findStoreByOwnerId } from "@/dal/store"
+import { getSessionAndStore } from "@/dal/store"
+import { NoStoreState } from "../_components/NoStoreState"
 
 export const metadata: Metadata = { title: "Dashboard" }
 
 export default async function DashboardPage() {
-  const session = await getCurrentSession()
+  const { session, store } = await getSessionAndStore()
   if (session == null) return redirect("/signin")
-
-  const store = await findStoreByOwnerId(session.user.id)
-
-  if (store == null) {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center">
-        <div className="font-medium">You don't have a store yet.</div>
-        <Link href="/create-store" className={buttonVariants()}>
-          Create Store
-        </Link>
-      </div>
-    )
-  }
+  if (store == null) return <NoStoreState />
 
   return (
     <div className="flex flex-1 flex-col space-y-2 p-2">

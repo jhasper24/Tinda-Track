@@ -1,11 +1,9 @@
-import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
-import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { getCurrentSession } from "@/dal/session"
-import { findStoreByOwnerId } from "@/dal/store"
+import { getSessionAndStore } from "@/dal/store"
 import { pesoFormatter } from "@/lib/utils"
+import { NoStoreState } from "../../_components/NoStoreState"
 import { findProduct } from "../_dal/product"
 import { getProductPricing } from "../_lib/utils"
 import { EditProductDialog } from "./_components/EditProductDialog"
@@ -15,20 +13,10 @@ type ProductDetailPageProps = {
 }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const session = await getCurrentSession()
+  const { session, store } = await getSessionAndStore()
   if (session == null) return redirect("/signin")
+  if (store == null) return <NoStoreState />
 
-  const store = await findStoreByOwnerId(session.user.id)
-  if (store == null) {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center">
-        <div className="font-medium">You don't have a store yet.</div>
-        <Link href="/create-store" className={buttonVariants()}>
-          Create Store
-        </Link>
-      </div>
-    )
-  }
   const { id } = await params
 
   const product = await findProduct({ id, storeId: store.id }).catch(() => null)

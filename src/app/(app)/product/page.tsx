@@ -1,9 +1,7 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { redirect } from "next/navigation"
-import { buttonVariants } from "@/components/ui/button"
-import { getCurrentSession } from "@/dal/session"
-import { findStoreByOwnerId } from "@/dal/store"
+import { getSessionAndStore } from "@/dal/store"
+import { NoStoreState } from "../_components/NoStoreState"
 import { AddProductDialog } from "./_components/AddProductDialog"
 import { ProductTable } from "./_components/ProductTable"
 import { findProducts } from "./_dal/product"
@@ -11,21 +9,9 @@ import { findProducts } from "./_dal/product"
 export const metadata: Metadata = { title: "Product" }
 
 export default async function ProductPage() {
-  const session = await getCurrentSession()
+  const { session, store } = await getSessionAndStore()
   if (session == null) return redirect("/signin")
-
-  const store = await findStoreByOwnerId(session.user.id)
-
-  if (store == null) {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center">
-        <div className="font-medium">You don't have a store yet.</div>
-        <Link href="/create-store" className={buttonVariants()}>
-          Create Store
-        </Link>
-      </div>
-    )
-  }
+  if (store == null) return <NoStoreState />
 
   const products = await findProducts(store.id)
 

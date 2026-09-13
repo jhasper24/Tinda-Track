@@ -1,15 +1,10 @@
 import { Plus, Store } from "lucide-react"
 import Link from "next/link"
-import { redirect } from "next/navigation"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-import { getCurrentSession } from "@/dal/session"
-import { findStoreByOwnerId } from "@/dal/store"
+import { getSessionAndStore } from "@/dal/store"
 
 export async function NavStore() {
-  const session = await getCurrentSession()
-  if (session == null) redirect("/signin")
-
-  const store = await findStoreByOwnerId(session.user.id)
+  const { store } = await getSessionAndStore()
 
   if (store == null) {
     return (
