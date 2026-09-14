@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx"
+import { formatDistanceToNow } from "date-fns"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,3 +15,7 @@ export const pesoFormatter = new Intl.NumberFormat("en-PH", {
   style: "currency",
   currency: "PHP",
 })
+
+export function formatLastUpdated(date: Date) {
+  return formatDistanceToNow(date, { addSuffix: true })
+}
