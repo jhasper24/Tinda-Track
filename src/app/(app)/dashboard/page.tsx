@@ -3,6 +3,8 @@ import { redirect } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { getSessionAndStore } from "@/dal/store"
 import { NoStoreState } from "../_components/NoStoreState"
+import { StatsCard } from "./_components/StatCard"
+import { countProducts } from "./_dal/product"
 
 export const metadata: Metadata = { title: "Dashboard" }
 
@@ -10,13 +12,14 @@ export default async function DashboardPage() {
   const { session, store } = await getSessionAndStore()
   if (session == null) return redirect("/signin")
   if (store == null) return <NoStoreState />
+  const productCount = await countProducts(store.id)
 
   return (
-    <div className="flex flex-1 flex-col space-y-2 p-2">
-      <div className="flex gap-2">
-        <Card className="h-56 flex-1 bg-gray-100"></Card>
-        <Card className="h-56 flex-1 bg-gray-100"></Card>
-        <Card className="h-56 flex-1 bg-gray-100"></Card>
+    <div className="flex flex-1 flex-col space-y-4 p-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <StatsCard title="Total Products" value={productCount.toString()} />
+        <Card className="h-48 w-full bg-gray-100"></Card>
+        <Card className="h-48 w-full bg-gray-100 md:col-span-2 xl:col-span-1"></Card>
       </div>
       <Card className="h-full bg-gray-100"></Card>
     </div>

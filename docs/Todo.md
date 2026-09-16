@@ -12,6 +12,6 @@ Dashboard
 - [x] Delete product
 
 ## TODO
-- [ ] Show number of items
+- [x] Show number of products
 - [ ] Show recently updated item
 - [ ] Show latest added product
