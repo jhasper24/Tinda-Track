@@ -9,9 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import type { Product } from "@/drizzle/schema"
 import { formatLastUpdated, pesoFormatter } from "@/lib/utils"
 import { getProductPricing } from "../_lib/utils"
-import type { Product } from "../_schemas/product"
 import { DeleteProductButton } from "./DeleteProductButton"
 
 type ProductTableProps = {
@@ -27,7 +27,7 @@ export function ProductTable({ products }: ProductTableProps) {
     <Table className="table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-auto">Product name</TableHead>
+          <TableHead className="w-auto">Product Name</TableHead>
           <TableHead className="w-32 text-right">Cost</TableHead>
           <TableHead className="w-32 text-right">Selling Price</TableHead>
           <TableHead className="w-24 text-right">Action</TableHead>

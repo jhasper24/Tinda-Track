@@ -12,11 +12,12 @@ import {
 } from "@/components/ui/dialog"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
+import type { Product } from "@/drizzle/schema"
 import { pesoFormatter } from "@/lib/utils"
 import { updateProductAction } from "../../_actions/product"
 import { ProductFormField } from "../../_components/ProductFormField"
 import { useProductForm } from "../../_hooks/useProductForm"
-import type { Product, ProductOutput } from "../../_schemas/product"
+import type { ProductOutput } from "../../_schemas/product"
 
 type EditProductProps = {
   product: Product

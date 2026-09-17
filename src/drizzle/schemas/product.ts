@@ -18,3 +18,5 @@ export const product = pgTable("product", {
     .$onUpdate(() => new Date())
     .notNull(),
 })
+
+export type Product = typeof product.$inferSelect

@@ -1,5 +1,4 @@
 import z from "zod"
-import type { product } from "@/drizzle/schema"
 
 export const productSchema = z.object({
   name: z
@@ -22,8 +21,6 @@ export const productSchema = z.object({
 
 export type ProductOutput = z.output<typeof productSchema>
 export type ProductInput = z.input<typeof productSchema>
-
-export type Product = typeof product.$inferSelect
 
 export const markupTypeItems = [
   { value: "percent", label: "%" },

@@ -13,5 +13,5 @@ Dashboard
 
 ## TODO
 - [x] Show number of products
-- [ ] Show recently updated item
-- [ ] Show latest added product
+- [x] Show recently updated item
+- [x] Show latest added product
