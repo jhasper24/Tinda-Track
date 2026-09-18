@@ -1,7 +1,11 @@
 # Todo
 
 ## Active
-Dashboard
+Pricing
+
+## TODO
+- [ ] Editable Selling Price field (syncs with markup)
+- [ ] Bulk cost calculator tool
 
 ## Done
 - [x] Create product schema
@@ -10,8 +14,6 @@ Dashboard
 - [x] View product details
 - [x] Edit product
 - [x] Delete product
-
-## TODO
-- [x] Show number of products
-- [x] Show recently updated item
-- [x] Show latest added product
+- [x] Dashboard: show number of products
+- [x] Dashboard: show recently updated item
+- [x] Dashboard: show latest added product
