@@ -14,9 +14,17 @@ import { markupTypeItems, type ProductInput, type ProductOutput } from "../_sche
 type ProductFormFieldProps = {
   form: UseFormReturn<ProductInput, unknown, ProductOutput>
   isSubmitting: boolean
+  sellingPrice: number
+  sellingPriceError: string | null
+  onSellingPriceChange: (value: string) => void
 }
-
-export function ProductFormField({ form, isSubmitting }: ProductFormFieldProps) {
+export function ProductFormField({
+  form,
+  isSubmitting,
+  sellingPrice,
+  sellingPriceError,
+  onSellingPriceChange,
+}: ProductFormFieldProps) {
   return (
     <FieldGroup className="gap-4">
       <Controller
@@ -113,6 +121,21 @@ export function ProductFormField({ form, isSubmitting }: ProductFormFieldProps) 
           )}
         />
       </div>
+
+      <Field>
+        <FieldLabel htmlFor="sellingPrice">Selling Price</FieldLabel>
+        <Input
+          id="sellingPrice"
+          type="number"
+          step="any"
+          autoComplete="off"
+          disabled={isSubmitting}
+          value={sellingPrice === 0 ? "" : parseFloat(sellingPrice.toFixed(2))}
+          onChange={(e) => onSellingPriceChange(e.target.value)}
+          aria-invalid={!!sellingPriceError}
+        />
+        {sellingPriceError && <FieldError>{sellingPriceError}</FieldError>}
+      </Field>
     </FieldGroup>
   )
 }

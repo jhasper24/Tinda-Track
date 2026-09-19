@@ -13,7 +13,6 @@ import {
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 import type { Product } from "@/drizzle/schema"
-import { pesoFormatter } from "@/lib/utils"
 import { updateProductAction } from "../../_actions/product"
 import { ProductFormField } from "../../_components/ProductFormField"
 import { useProductForm } from "../../_hooks/useProductForm"
@@ -25,12 +24,13 @@ type EditProductProps = {
 
 export function EditProductDialog({ product }: EditProductProps) {
   const [open, setOpen] = useState(false)
-  const { form, isSubmitting, sellingPrice } = useProductForm({
-    name: product.name,
-    cost: product.cost,
-    markupType: product.markupType,
-    markupValue: product.markupValue,
-  })
+  const { form, isSubmitting, sellingPrice, sellingPriceError, handleSellingPriceChange } =
+    useProductForm({
+      name: product.name,
+      cost: product.cost,
+      markupType: product.markupType,
+      markupValue: product.markupValue,
+    })
   async function onSubmit(data: ProductOutput) {
     const result = await updateProductAction(product.id, data)
     if (result.success) {
@@ -62,12 +62,14 @@ export function EditProductDialog({ product }: EditProductProps) {
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
         <form id="editProductForm" onSubmit={form.handleSubmit(onSubmit)}>
-          <ProductFormField form={form} isSubmitting={isSubmitting} />
+          <ProductFormField
+            form={form}
+            isSubmitting={isSubmitting}
+            sellingPrice={sellingPrice}
+            sellingPriceError={sellingPriceError}
+            onSellingPriceChange={handleSellingPriceChange}
+          />
         </form>
-        <div className="flex flex-col rounded-md border border-border p-5">
-          <span className="text-muted-foreground text-xs">Selling Price</span>
-          <span className="text-xl">{pesoFormatter.format(sellingPrice)}</span>
-        </div>
         <DialogFooter>
           <Button disabled={isSubmitting} type="submit" form="editProductForm">
             {isSubmitting ? <Spinner /> : "Update Product"}

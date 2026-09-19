@@ -11,19 +11,19 @@ import {
 } from "@/components/ui/dialog"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
-import { pesoFormatter } from "@/lib/utils"
 import { addProductAction } from "../_actions/product"
 import { useProductForm } from "../_hooks/useProductForm"
 import type { ProductOutput } from "../_schemas/product"
 import { ProductFormField } from "./ProductFormField"
 
 export function AddProductDialog() {
-  const { form, isSubmitting, sellingPrice } = useProductForm({
-    name: "",
-    cost: "",
-    markupValue: "",
-    markupType: "percent",
-  })
+  const { form, isSubmitting, sellingPrice, sellingPriceError, handleSellingPriceChange } =
+    useProductForm({
+      name: "",
+      cost: "",
+      markupValue: "",
+      markupType: "percent",
+    })
 
   async function onSubmit(data: ProductOutput) {
     const result = await addProductAction(data)
@@ -44,12 +44,14 @@ export function AddProductDialog() {
           <DialogTitle>Add Product</DialogTitle>
         </DialogHeader>
         <form id="addProductForm" onSubmit={form.handleSubmit(onSubmit)}>
-          <ProductFormField form={form} isSubmitting={isSubmitting} />
+          <ProductFormField
+            form={form}
+            isSubmitting={isSubmitting}
+            sellingPrice={sellingPrice}
+            sellingPriceError={sellingPriceError}
+            onSellingPriceChange={handleSellingPriceChange}
+          />
         </form>
-        <div className="flex flex-col rounded-md border border-border p-5">
-          <span className="text-muted-foreground text-xs">Selling Price</span>
-          <span className="text-xl">{pesoFormatter.format(sellingPrice)}</span>
-        </div>
         <DialogFooter>
           <Button disabled={isSubmitting} type="submit" form="addProductForm">
             {isSubmitting ? <Spinner /> : "Add Product"}

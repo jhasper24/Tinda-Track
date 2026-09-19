@@ -4,7 +4,7 @@
 Pricing
 
 ## TODO
-- [ ] Editable Selling Price field (syncs with markup)
+- [x] Editable Selling Price field (syncs with markup)
 - [ ] Bulk cost calculator tool
 
 ## Done
