@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { markupTypeItems, type ProductInput, type ProductOutput } from "../_schemas/product"
+import { BulkCostCalculator } from "./BulkCostCalculator"
 
 type ProductFormFieldProps = {
   form: UseFormReturn<ProductInput, unknown, ProductOutput>
@@ -54,14 +55,25 @@ export function ProductFormField({
               Cost
               <span className="font-normal text-muted-foreground text-xs">(Per Piece)</span>
             </FieldLabel>
-            <Input
-              {...field}
-              id="cost"
-              autoComplete="off"
-              type="number"
-              aria-invalid={fieldState.invalid}
-              disabled={isSubmitting}
-            />
+            <div className="flex gap-2">
+              <Input
+                {...field}
+                id="cost"
+                autoComplete="off"
+                type="number"
+                aria-invalid={fieldState.invalid}
+                disabled={isSubmitting}
+              />
+              <BulkCostCalculator
+                disabled={isSubmitting}
+                onApply={(computedCost) => {
+                  form.setValue("cost", computedCost, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  })
+                }}
+              />
+            </div>
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
