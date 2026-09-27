@@ -11,14 +11,13 @@ export function useProductForm(defaultValues: ProductInput) {
     defaultValues,
     resolver: zodResolver(productSchema),
   })
-  const { isSubmitting } = form.formState
+  const { isSubmitting, errors } = form.formState
   const [cost, markupValue, markupType] = useWatch({
     name: ["cost", "markupValue", "markupType"],
     control: form.control,
   })
   const sellingPrice = computeSellingPrice({ cost, markupValue, markupType })
-  const sellingPriceError =
-    sellingPrice < parseNumber(cost) ? "Selling price cannot be lower than cost." : null
+  const sellingPriceError = errors.markupValue?.message ?? null
 
   function handleSellingPriceChange(value: string | number) {
     form.setValue("markupType", "fixed", { shouldValidate: true, shouldDirty: true })
